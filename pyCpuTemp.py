@@ -5,7 +5,7 @@ from argparse import ArgumentParser
 
 #Add an argument parser
 parser = ArgumentParser()
-parser.add_argument('-w',action="store_false",default=True)
+parser.add_argument('-w',action="store_false",default=True,help='option to display runtime warnings')
 args = vars(parser.parse_args())
 
 #Parse out the value for warnings boolean.
