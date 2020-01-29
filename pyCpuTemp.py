@@ -1,34 +1,32 @@
 import psutil
 import sys
 import warnings
+from argparse import ArgumentParser
 
+#Add an argument parser
+parser = ArgumentParser()
+parser.add_argument('-w',action="store_false",default=True)
+args = vars(parser.parse_args())
 
+#Parse out the value for warnings boolean.
+warns = args.get('w')
 
-if not sys.warnoptions:
-	warnings.simplefilter("ignore")
+#Conditional for warnings display.
+if warns is True:
+	#Disable warnings 
+	if not sys.warnoptions:
+		warnings.simplefilter("ignore")
 
 print("This is a script to check cpu temperature...")
 
-#Print all cpu data.
-#print(psutil.sensors_temperatures())
-#print("****************************************")
+#Get sensor data from psutil.
 tempsDict = psutil.sensors_temperatures()
+#Parse out cpu temps.
 general = tempsDict.get('acpitz')
+#Parse out individual core temperatures.
 individualCores = tempsDict.get('coretemp')
-#print("++++++++++++++++++++++++++++++++++")
-#print(general)
-generalArr = general[0]
-#print(generalArr)
-currentTemp = generalArr[1]
-#print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-#print(currentTemp)
-
-#print("-----------------------------------------------")
-#print(individualCores)
 
 #print the current temps of each of the cpu cores.
-#print(individualCores[0][1],individualCores[1][1],individualCores[2][1],individualCores[3][1])
-
 print("Core 0 = {} degrees centigrade.".format(individualCores[0][1]))
 
 print("Core 1 = {} degrees centigrade.".format(individualCores[1][1]))
